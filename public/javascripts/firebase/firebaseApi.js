@@ -1,6 +1,12 @@
 const auth = firebase.auth();
 const provider = new firebase.auth.GoogleAuthProvider();
 const store = firebase.firestore(); // 데이터베이스
+const storage = firebase.storage(); // 저장소
+const storageRef = storage.ref();
+
+const imagesRef = storageRef.child('images');
+const mountainImagesRef = storageRef.child('images/lotus2.jpg');
+
 
 const FirebaseDB = {
     createUser: async (user) => {
@@ -73,7 +79,6 @@ const FirebaseApi = new function() {
     };
 
 };
-
 
 
 
