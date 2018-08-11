@@ -9,4 +9,7 @@ body {
   justify-content: center;
   align-items: center; }
 
+[disabled] {
+  display: none; }
+
 /*# sourceMappingURL=login.css.map */

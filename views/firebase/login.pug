@@ -5,11 +5,28 @@ html(lang='en')
         title login
         meta(name='description', content='')
         meta(name='author', content='Jaejong')
+
+        //firebase
+        script(src='https://www.gstatic.com/firebasejs/4.12.1/firebase.js')
+        script(src='https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js')
+        // lodash
+        script(src="/lodash/lodash.js")
+        // jquery
+        script(src="/jquery/dist/jquery.js")
+
+        // css link
         link(rel='stylesheet', href='/stylesheets/firebase/login.css')
     body
         form
             //input(type="text" placeholder="login")
             //input(type="text" placeholder="password")
-            button(type="button") login
+            button#login(type="button") login
+            button#logout(type="button" disabled) logout
 
-        //script(src='js/scripts.js')
+
+
+
+        // javascripts
+        script(src='javascripts/initializeFirebase.js')
+        script(src='javascripts/firebase/firebaseApi.js')
+        script(src='javascripts/firebase/login.js')
