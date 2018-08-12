@@ -16,7 +16,8 @@ const FirebaseDB = {
             email: user.email,
             photoURL: user.photoURL,
             createdAt: new Date().getTime(),
-            signAt: new Date().getTime()
+            signAt: new Date().getTime(),
+            files: []
         };
 
         return await store.collection('users').doc(user.uid).set(data);
@@ -41,6 +42,25 @@ const FirebaseDB = {
             return doc.data();
         else
             return null;
+    },
+
+    writeData: async (currentUser, file) => {
+        console.log(file);
+        const data = {
+            user: currentUser.uid,
+            lastModified: file.lastModified,
+            lastModifiedDate: file.lastModifiedDate,
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            webkitRelativePath: file.webkitRelativePath
+        };
+
+        console.log(currentUser);
+        // const arr =currentUser.files;
+        // arr.push(file.name);
+
+        return await store.collection('files').doc(file.name).set(data);
     }
 };
 

@@ -10,7 +10,15 @@ body {
   align-items: center;
   flex-direction: column; }
   body form button {
-    margin-bottom: 50px; }
+    margin-bottom: 25px; }
+  body .loginedUser-zone {
+    margin-bottom: 25px; }
+    body .loginedUser-zone > .loginedUser {
+      cursor: pointer; }
+  body #dropbox {
+    width: 800px;
+    height: 700px;
+    border: 1px solid #555; }
 
 [disabled] {
   display: none; }
