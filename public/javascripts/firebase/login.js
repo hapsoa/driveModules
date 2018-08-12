@@ -91,6 +91,7 @@ const eventManager = new function () {
      */
     this.sendStroage = async function (selectedFile) {
         const currentUser = auth.currentUser;
+
         const fileRef = storageRef.child(`${selectedFile.name}`);
 
         // 1. 데이터베이스에 파일 메타데이터를 보낸다.
@@ -150,10 +151,8 @@ const dropboxManager = new function () {
     }
 
     async function handleFiles(files) {
-        console.log(files[0]);
-        // 여기에서 저장소로 보낸다.
+        // 저장소로 보낸다.
         const selectedFile = files[0];
-
 
         eventManager.sendStroage(selectedFile);
     }

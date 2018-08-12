@@ -45,7 +45,11 @@ const FirebaseDB = {
     },
 
     writeData: async (currentUser, file) => {
-        console.log(file);
+        // console.log(file);
+        const databaseUser = await store.collection('users').doc(currentUser.uid)
+            .get().data();
+        console.log(databaseUser);
+
         const data = {
             user: currentUser.uid,
             lastModified: file.lastModified,
@@ -56,9 +60,10 @@ const FirebaseDB = {
             webkitRelativePath: file.webkitRelativePath
         };
 
-        console.log(currentUser);
-        // const arr =currentUser.files;
-        // arr.push(file.name);
+        databaseUser.data().files.push(file.name);
+
+        databaseUser.update({files: databaseUser.data().files});
+        // databaseUser.files.push(file.name);
 
         return await store.collection('files').doc(file.name).set(data);
     }
