@@ -2,19 +2,19 @@ const eventManager = new function () {
 
     const that = this;
 
-    const loginButton = $('button#login');
-    const logoutButton = $('button#logout');
+    const $loginButton = $('button#login');
+    const $logoutButton = $('button#logout');
 
     const $loginedUserZone = $('.loginedUser-zone');
 
     /**
      * login button
      */
-    loginButton.on('click', function () {
+    $loginButton.on('click', function () {
         const $this = $(this);
 
-        $this.attr('disabled', '');
-        logoutButton.removeAttr('disabled');
+        // $this.attr('disabled', '');
+        // $logoutButton.removeAttr('disabled');
 
         FirebaseApi.signIn();
 
@@ -24,11 +24,11 @@ const eventManager = new function () {
     /**
      * logout button
      */
-    logoutButton.on('click', function () {
+    $logoutButton.on('click', function () {
         const $this = $(this);
 
-        $this.attr('disabled', '');
-        loginButton.removeAttr('disabled');
+        // $this.attr('disabled', '');
+        // $loginButton.removeAttr('disabled');
 
         FirebaseApi.signOut();
     });
@@ -47,6 +47,9 @@ const eventManager = new function () {
             // 화면에 유저 이름을 보여준다.
             loginTemplate = `<div class="loginedUser">${user.displayName}</div>`;
             $loginedUserZone.append(loginTemplate);
+
+            $loginButton.attr('disabled', '');
+            $logoutButton.removeAttr('disabled');
         }
         else { // 로그아웃 할 때
             // const $loginTemplate = $(loginTemplate);
@@ -54,6 +57,9 @@ const eventManager = new function () {
             // $loginedUserZone.find($loginTemplate).remove();
 
             $loginedUserZone.find($loginedUser).remove();
+
+            $logoutButton.attr('disabled', '');
+            $loginButton.removeAttr('disabled');
         }
 
         /**
@@ -62,8 +68,10 @@ const eventManager = new function () {
          */
         $loginedUser = $('.loginedUser');
 
-        $loginedUser.on('click', function () {
-            console.log('ohohoh!');
+        $loginedUser.on('click', async function () {
+            const userData = await FirebaseDB.readUser(user.uid);
+
+            console.log(userData.files);
         });
 
     });

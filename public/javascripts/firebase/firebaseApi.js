@@ -8,8 +8,8 @@ const imagesRef = storageRef.child('images');
 const mountainImagesRef = storageRef.child('images/lotus2.jpg');
 
 
-const FirebaseDB = {
-    createUser: async (user) => {
+const FirebaseDB = new function() {
+    this.createUser = async (user) => {
         const data = {
             uid: user.uid,
             displayName: user.displayName,
@@ -21,9 +21,9 @@ const FirebaseDB = {
         };
 
         return await store.collection('users').doc(user.uid).set(data);
-    },
+    };
 
-    signUser: async (user) => {
+    this.signUser = async (user) => {
         const data = {
             displayNadisplayName: user.displayName,
             email: user.email,
@@ -32,9 +32,9 @@ const FirebaseDB = {
         };
 
         return await store.collection('users').doc(user.uid).update(data);
-    },
+    };
 
-    readUser: async (uid) => {
+    this.readUser = async (uid) => {
         // 데이터가 어디에 있다 라고 위치 설정만 하는것
         const refUser = store.collection('users').doc(uid);
         const doc = await refUser.get();
@@ -42,13 +42,29 @@ const FirebaseDB = {
             return doc.data();
         else
             return null;
-    },
+    };
 
-    writeData: async (currentUser, file) => {
-        // console.log(file);
-        const databaseUser = await store.collection('users').doc(currentUser.uid)
-            .get().data();
-        console.log(databaseUser);
+    this.writeData = async (currentUser, file) => {
+
+        const databaseUserRef = await store.collection('users').doc(currentUser.uid);
+
+        const doc = await databaseUserRef.get();
+
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+
+            let arr = await doc.data().files;
+
+            arr.push(file.name);
+
+            // 업데이트 한다. files를
+            await databaseUserRef.update({
+                files: arr
+            });
+
+        } else {
+            console.log("No such document!");
+        }
 
         const data = {
             user: currentUser.uid,
@@ -60,13 +76,17 @@ const FirebaseDB = {
             webkitRelativePath: file.webkitRelativePath
         };
 
-        databaseUser.data().files.push(file.name);
-
-        databaseUser.update({files: databaseUser.data().files});
-        // databaseUser.files.push(file.name);
-
         return await store.collection('files').doc(file.name).set(data);
-    }
+    };
+
+    this.setWriteDataListener = function() {
+
+    };
+
+    this.readUserFiles = function() {
+
+    };
+
 };
 
 const FirebaseApi = new function() {
